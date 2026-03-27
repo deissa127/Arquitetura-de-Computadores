@@ -1,7 +1,7 @@
 # 6. Faça um programa que leia a idade (em anos) e o tempo de serviço de um trabalhador.
-# Informe se ele pode se aposentar (imprima S se sim, e N se não). As condições para
-# aposentadoria são: 1) ter, ao menos, 65 anos; OU 2) ter trabalhado 40 anos; OU ter
-# pelo menos 60 anos e mais de 35 anos.
+#    Informe se ele pode se aposentar (imprima S se sim, e N se não). As condições para
+#    aposentadoria são: 1) ter, ao menos, 65 anos; OU 2) ter trabalhado 40 anos; OU ter
+#    pelo menos 60 anos e mais de 35 anos.
 
 .text
 main:	addi $2, $0, 5

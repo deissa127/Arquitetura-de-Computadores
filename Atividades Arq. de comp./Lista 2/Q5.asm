@@ -1,7 +1,7 @@
 # 5. Faça um programa que receba três notas (entre 0 e 100) e calcule a média ponderada
-# dessas notas com pesos 1, 2 e 3. Informe a média e se o aluno foi aprovado, escreva
-# após a média o a letra A. Caso o aluno seja reprovado, informe, após a média, a letra R. 
-# A média para aprovação é 60.
+#    dessas notas com pesos 1, 2 e 3. Informe a média e se o aluno foi aprovado, escreva
+#    após a média o a letra A. Caso o aluno seja reprovado, informe, após a média, a letra R. 
+#    A média para aprovação é 60.
 
 .text
 main:	# entrada notas

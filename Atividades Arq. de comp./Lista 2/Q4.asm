@@ -1,5 +1,6 @@
 # 4. Faça um programa que leia dois números e escreva a relação de grandeza entre eles.
-# Ex. 345 e 23 gera a saída 345>23. Ex.: 24 e 38 gera a saída 24<38. Ex.: 12 e 12 gera a saída 12=12.
+#    Ex. 345 e 23 gera a saída 345>23. Ex.: 24 e 38 gera a saída 24<38. 
+#    Ex.: 12 e 12 gera a saída 12=12.
 
 .text
 main:	addi $2, $0, 5

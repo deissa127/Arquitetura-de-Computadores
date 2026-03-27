@@ -1,5 +1,5 @@
 # 2. Faça um programa para ler um número inteiro. Se o número for positivo, imprima o
-# dobro do número, se for negativo, imprima o quadrado do número.
+#    dobro do número, se for negativo, imprima o quadrado do número.
 
 .text
 main:	addi $2, $0, 5
