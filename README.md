@@ -2,13 +2,13 @@
 
 A disciplina de Arquitetura de Computadores (muitas vezes ministrada em conjunto com Organização) foca nos atributos de um sistema que são visíveis ao programador.
 
-- Pontos principais da disciplina sob essa ótica:
+Pontos principais da disciplina:
 
 1. Conjunto de Instruções (ISA - Instruction Set Architecture)
 É o ponto central da arquitetura. Estuda-se a interface entre o software e o hardware, incluindo:
-* Tipos de dados: Como os dados são representados (inteiros, pontos flutuantes).
-* Registradores: O estudo dos poucos e velozes espaços de armazenamento internos à CPU que o programador pode manipular diretamente.
-* Modos de endereçamento: As diferentes formas que o processador utiliza para localizar dados na memória.
+- Tipos de dados: Como os dados são representados (inteiros, pontos flutuantes).
+- Registradores: O estudo dos poucos e velozes espaços de armazenamento internos à CPU que o programador pode manipular diretamente.
+- Modos de endereçamento: As diferentes formas que o processador utiliza para localizar dados na memória.
 
 2. Linguagem de Máquina e Assembly
 A disciplina aborda a programação em baixo nível. O aluno aprende como as instruções lógicas e aritméticas são codificadas em binário e como utilizar a linguagem Assembly para controlar o comportamento do processador de forma direta, sem as camadas de abstração das linguagens de alto nível.
