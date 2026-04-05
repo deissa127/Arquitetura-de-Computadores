@@ -1,6 +1,6 @@
 # Arquitetura-de-Computadores
 
-Com base nas diretrizes e ementas do **DIATINF-IFRN**, a disciplina de **Arquitetura de Computadores** (muitas vezes ministrada em conjunto com Organização) foca nos atributos de um sistema que são **visíveis ao programador**.
+A disciplina de Arquitetura de Computadores (muitas vezes ministrada em conjunto com Organização) foca nos atributos de um sistema que são visíveis ao programador.
 
 - Pontos principais da disciplina sob essa ótica:
 
