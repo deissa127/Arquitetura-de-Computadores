@@ -5,9 +5,9 @@
 .text
 main:
 # Lê o primeiro número para inicializar maior e menor
-    addi $v0, $0, 5
+    addi $2, $0, 5
     syscall
-    add $8, $0, $v0         # $8 = número lido
+    add $8, $0, $2         # $8 = número lido
 
     beq $8, $0, fim         # Se já começar com 0, vai pro fim
 
@@ -16,9 +16,9 @@ main:
 
 # ----------CORPO DO LAÇO--------------
 laco:
-    addi $v0, $0, 5
+    addi $2, $0, 5
     syscall
-    add $8, $0, $v0         # $8 = número lido
+    add $8, $0, $2         # $8 = número lido
 
 teste:
     beq $8, $0, fim         # Se digitou 0, encerra
@@ -41,18 +41,18 @@ prox:
 fim:
     # Imprime maior
     add $4, $0, $18
-    addi $v0, $0, 1
+    addi $2, $0, 1
     syscall
 
     addi $4, $0, '\n'
-    addi $v0, $0, 11
+    addi $2, $0, 11
     syscall
 
     # Imprime menor
     add $4, $0, $19
-    addi $v0, $0, 1
+    addi $2, $0, 1
     syscall
 
     # Encerra
-    addi $v0, $0, 10
+    addi $2, $0, 10
     syscall

@@ -5,14 +5,14 @@
 .text
 main:
     # Lê a quantidade de números
-    addi $v0, $0, 5
+    addi $2, $0, 5
     syscall
-    add $20, $0, $v0        # $20 = quantidade de números
+    add $20, $0, $2         # $20 = quantidade de números
 
     # Lê o primeiro número para inicializar maior e contador
-    addi $v0, $0, 5
+    addi $2, $0, 5
     syscall
-    add $18, $0, $v0        # $18 = maior
+    add $18, $0, $2         # $18 = maior
     addi $21, $0, 1         # $21 = contador do maior (já leu 1 igual)
     addi $20, $20, -1       # Já leu 1 número
 
@@ -20,9 +20,9 @@ main:
 laco:
     beq $20, $0, fim        # Se leu todos, encerra
 
-    addi $v0, $0, 5
+    addi $2, $0, 5
     syscall
-    add $8, $0, $v0         # $8 = número lido
+    add $8, $0, $2         # $8 = número lido
 
     addi $20, $20, -1       # contador de leitura
 
@@ -43,18 +43,18 @@ comp_igual:
 fim:
     # Imprime maior
     add $4, $0, $18
-    addi $v0, $0, 1
+    addi $2, $0, 1
     syscall
 
     addi $4, $0, '\n'
-    addi $v0, $0, 11
+    addi $2, $0, 11
     syscall
 
     # Imprime quantidade de vezes
     add $4, $0, $21
-    addi $v0, $0, 1
+    addi $2, $0, 1
     syscall
 
     # Encerra
-    addi $v0, $0, 10
+    addi $2, $0, 10
     syscall
