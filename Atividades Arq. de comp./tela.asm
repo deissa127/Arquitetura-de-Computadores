@@ -47,3 +47,38 @@ coluna2:
 fim:	
 	addi $2, $0, 10
 	syscall
+
+
+
+
+
+
+
+	.text
+main:
+	lui $8, 0x1001
+	lui $6, 0x1001
+	lui $5, 0x1001
+	
+	lui $9, 0x00ff
+	
+	addi $10, $0, 128
+	addi $11, $0, 8064
+
+linha:
+	beq $10, $0, linha2
+	sw $9, 0($8)
+	addi $8, $8, 4
+	addi $10, $10, -1	
+	j linha
+	
+linha2:
+	beq $11, 8196, fim
+	sw $9, 0($8)
+	addi $8, $8, 4
+	addi $10, $10, 1	
+	j linha
+	
+fim:
+	addi $2, $0, 10
+	syscall
