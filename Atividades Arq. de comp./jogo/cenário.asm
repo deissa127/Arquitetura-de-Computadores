@@ -54,13 +54,17 @@ colunas:	# 500 + 4 + 4 + 4 = 512 pixels
 	j colunas
 	
 p:	
-	# p1
+	# p1 -> colunas iguais cantro superior esquerdo e direito
 	addi $25, $5, 0xE20	# posição da primeira parede -> p1 3612 = 0xE1C
 	addi $13, $0, 9		# contador p1
-	jal p1
+	addi $15, $0, 436	# salto para a próxima coluna 
+	addi $16, $0, 68	# proxima linha
+	jal p8
 	# p2 -> igual ao p1
 	addi $25, $5, 0xE3C	# NOVA posição da memória -> p2  3640 = 0xE38
 	addi $13, $0, 14	# contador p2
+	addi $15, $0, 408	# salto para a próxima coluna
+	addi $16, $0, 96	# proxima linha
 	jal p1
 	# p3
 	addi $25, $5, 0x2A20	# NOVA posição da memória -> pl3  10780 = 0x2A1C
@@ -90,6 +94,8 @@ p:
 	# p8
 	addi $25, $5, 0x125C	# posição da primeira parede -> p8
 	addi $13, $0, 12	# contador p8
+	addi $15, $0, 316	# salto para a próxima coluna
+	addi $16, $0, 188	# proxima linha
 	jal p8
 	# p9
 	addi $25, $5, 0x1C78	# NOVA posição da memória -> p2  
@@ -100,15 +106,30 @@ p:
 	addi $25, $5, 0xFBC	# posição da primeira parede -> p10 
 	addi $13, $0, 14	# contador p1
 	jal p1
-	# p11
+	# p11 -> ultima linha primeira parte
 	addi $25, $5, 0x2BBC	# NOVA posição da memória -> pl11  
 	addi $13, $0, 18	# (18 = 9 + 9) contador pl3
 	addi $14, $0, 9		# metade do $13
 	jal p3
 	# p12
-	addi $25, $5, 0xFD8	# posição da primeira parede -> p12
-	addi $13, $0, 9		# contador p1
-	jal p1
+	addi $25, $5, 0x3820	# posição da primeira parede -> p12
+	addi $13, $0, 13	# contador p1
+	addi $15, $0, 80	# salto para a próxima coluna
+	addi $16, $0, 424
+	jal p8
+	# p13
+	addi $25, $5, 0x4E20	# linha 1 segunda parte
+	addi $13, $0, 46	# contador pl4
+	addi $14, $0, 23	# quantidade total de pixels pintados na coluna
+	jal p3
+	# p15
+	addi $25, $5, 0x383C	# posição da primeira parede -> p12
+	addi $13, $0, 6		# contador p1
+	addi $15, $0, 24	# salto para a próxima coluna
+	addi $16, $0, 480
+	jal p8
+	# p16
+	
 	
 
 	j fim
@@ -147,11 +168,11 @@ p8:	# colunas caixote
 	sw $9, 0($25)	# pixel 1
 	addi $25, $25, 4
 	sw $9, 0($25)	# pixel 2
-	addi $25, $25, 316
+	add $25, $25, $15
 	sw $9, 0($25)	# coluna 2 pixel 1
 	addi $25, $25, 4
 	sw $9, 0($25)	# coluna 2 pixel 2
-	addi $25, $25, 188
+	add $25, $25, $16
 	addi $13, $13, -1
 	j p8
 f8:	jr $31
