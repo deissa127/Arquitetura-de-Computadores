@@ -61,13 +61,13 @@ p:
 	addi $16, $0, 96	# proxima linha
 	jal pc
 	
-	addi $25, $5, 0x3880	# NOVA posição da memória -> p2  3640 = 0xE38
+	addi $25, $5, 0x6E0c	# NOVA posição da memória -> p2  3640 = 0xE38
 	addi $13, $0, 3		# contador p2
 	addi $15, $0, 408	# salto para a próxima coluna
 	addi $16, $0, 96	# proxima linha
 	jal pc
 	
-	addi $25, $5, 0x3974	# NOVA posição da memória -> p2  3640 = 0xE38
+	addi $25, $5, 0x6E20	# NOVA posição da memória -> p2  3640 = 0xE38
 	addi $13, $0, 3		# contador p2
 	addi $15, $0, 408	# salto para a próxima coluna
 	addi $16, $0, 96	# proxima linha
@@ -79,15 +79,20 @@ p:
 	addi $16, $0, 96	# proxima linha
 	jal pc
 
+	addi $25, $5, 0x62d0	# NOVA posição da memória -> p2  3640 = 0xE38
+	addi $13, $0, 3		# contador p2
+	addi $15, $0, 408	# salto para a próxima coluna
+	addi $16, $0, 96	# proxima linha
+	jal pc
 
 
-	# p1 -> colunas iguais cantro superior esquerdo e direito
+	# colunas iguais cantro superior esquerdo e direito
 	addi $25, $5, 0xE20	# posição da primeira parede -> p1 3612 = 0xE1C
 	addi $13, $0, 9		# contador p1
 	addi $15, $0, 436	# salto para a próxima coluna 
 	addi $16, $0, 68	# proxima linha
 	jal p8
-	# p2 -> igual ao p1
+	# segunda coluna
 	addi $25, $5, 0xE3C	# NOVA posição da memória -> p2  3640 = 0xE38
 	addi $13, $0, 14	# contador p2
 	addi $15, $0, 408	# salto para a próxima coluna
@@ -193,17 +198,56 @@ p:
 	addi $15, $0, 212	# salto para a próxima coluna
 	addi $16, $0, 292	# proxima linha
 	jal p8
-	#p15
-	addi $25, $5, 0x5d84	# linha espelho p12
-	addi $13, $0, 46	# contador pl4
-	addi $14, $0, 23	# quantidade total de pixels pintados na coluna
-	jal p3
-	#p15 - linha final
-	addi $25, $5, 0x6F84	# linha espelho p12
-	addi $13, $0, 46	# contador pl4
-	addi $14, $0, 23	# quantidade total de pixels pintados na coluna
-	jal p3
 	
+	#linha final
+	#p15 - linha do J
+	addi $25, $5, 0x5c20	# linha espelho p12
+	addi $13, $0, 46	# contador pl4
+	addi $14, $0, 23	# quantidade total de pixels pintados na coluna
+	jal p3
+	#p15 - linha do J inferior
+	addi $25, $5, 0x6E30	# linha espelho p12
+	addi $13, $0, 34	# contador pl4
+	addi $14, $0, 17	# quantidade total de pixels pintados na coluna
+	jal p3
+	# coluna do J
+	addi $25, $5, 0x5C6C	# coluna
+	addi $13, $0, 11	# contador
+	jal p1
+	#coluna pontinho J
+	addi $25, $5, 0x6a30	# linha
+	addi $13, $0, 3		# contador
+	jal p1
+	
+	# tá torto
+	# brotanto do chão
+	addi $25, $5, 0x6ad0	# coluna
+	addi $13, $0, 9		# contador
+	addi $15, $0, 80	# salto para a próxima coluna
+	addi $16, $0, 424
+	jal p8
+	# T - linha
+	addi $25, $5, 0x5cb0	# linha
+	addi $13, $0, 74	# contador
+	addi $14, $0, 37	# quantidade total de pixels pintados na coluna
+	jal p3
+	# T - coluna
+	addi $25, $5, 0x5CF8	# coluna
+	addi $13, $0, 9		# contador
+	jal p1
+	
+	
+	# colunas do H
+	addi $25, $5, 0x5d84	# linha 
+	addi $13, $0, 11	# contador
+	addi $15, $0, 80	# salto para a próxima coluna
+	addi $16, $0, 424
+	jal p8
+	#p15 - linha do H
+	addi $25, $5, 0x6784	# linha 
+	addi $13, $0, 46	# contador
+	addi $14, $0, 23	# quantidade total de pixels pintados na coluna
+	jal p3
 	
 
 	j fim
@@ -227,7 +271,7 @@ fc:	jr $31
 
 
 
-p1:	
+p1:	# coluna unica
 	beq $13, $0, f1
 	sw $9, 0($25)	# pixel 1
 	addi $25, $25, 4
@@ -237,7 +281,7 @@ p1:
 	j p1
 f1:	jr $31
 # --------------------
-p3:	# colado/pedaço com p2
+p3:	# linha
 	beq $13, $14 , pal3
 	sw $9, 0($25)	# pixel 1
 	addi $25, $25, 4
@@ -251,7 +295,7 @@ pl3:	beq $13, $0, f3
 	j pl3
 f3:	jr $31
 # -------------------- 
-p8:	# colunas caixote
+p8:	# colunas dupla
 	beq $13, $0, f8
 	sw $9, 0($25)	# pixel 1
 	addi $25, $25, 4
