@@ -1,6 +1,6 @@
 # pixel dividido pro 4 = 32256 bytes
 # total de pixels (4*4) = 8192 pixels
-# linha = 128	(128 pixels * 4 bytes = 512 bytes por fun_linha)
+# linha = 128	(128 pixels * 4 bytes = 512 bytes por linha)
 # coluna = 64 (32256 / 512)
 
 # as paredes tem 2 pixels de largura
@@ -33,71 +33,96 @@ linha:
 	addi $8, $8, 4		# próximo pixel
 	addi $10, $10, -1	# contador
 	j linha
-	
-	
 linha2:
 	beq $11, 0x2000, colunas # 0x2000 = 8192
 	sw $9, 0($7)
 	addi $7, $7, 4		# próximo pixel
 	addi $11, $11, 1	# contador
 	j linha2
-	
 colunas:	# 500 + 4 + 4 + 4 = 512 pixels
-	beq $12, $0 , pacman
+	beq $12, $0 , tunel
 	sw $9, 0($6)		# 1º Pinta o pixel 1 da COLUNA ESQUERDA
 	addi $6, $6, 4
 	sw $9, 0($6)		# 1º Pinta o pixel 2 da COLUNA ESQUERDA
-	addi $6, $6, 500	# Pula para o penúltimo pixel da fun_linha
+	addi $6, $6, 500	# Pula para o penúltimo pixel da linha
 	sw $9, 0($6)		# 2º Pinta o pixel 1 da COLUNA DIREITA
 	addi $6, $6, 4		# Anda para prox pixel
 	sw $9, 0($6)		# 2º Pinta o pixel 2 da COLUNA DIREITA
-	addi $6, $6, 4		# Anda +1 pixel ou +4 bytes para ir para a PRÓXIMA fun_linha
+	addi $6, $6, 4		# Anda +1 pixel ou +4 bytes para ir para a PRÓXIMA linha
 	addi $12, $12, -1	# contador
 	j colunas
 	
+tunel: # Túnel de Teletransporte (Wrap-around)
+	li $18, 0x000000	# Configura a cor PRETA (ou a cor do seu fundo)
+esquerdo:
+	# Apaga o lado ESQUERDO (Linhas 29 a 33)
+	addi $25, $5, 0x3A00	# Endereço de início do túnel esquerdo
+	addi $13, $0, 5		# Altura de 5 pixels
+loop_esq:
+	beq $13, $0, direito
+	sw $18, 0($25)		# Pinta pixel 1 de preto
+	sw $18, 4($25)		# Pinta pixel 2 de preto
+	addi $25, $25, 512	# Pula para a linha de baixo
+	addi $13, $13, -1
+	j loop_esq
+
+direito:
+	# Apaga o lado DIREITO (Linhas 29 a 33)
+	addi $25, $5, 0x3BF8	# Endereço de início do túnel direito
+	addi $13, $0, 5		# Altura de 5 pixels
+loop_dir:
+	beq $13, $0, p		# Quando terminar os dois lados, segue para o Pacman
+	sw $18, 0($25		# Pinta pixel 1 de preto
+	sw $18, 4($25)		# Pinta pixel 2 de preto
+	addi $25, $25, 512	# Pula para a linha de baixo
+	addi $13, $13, -1
+	j loop_dir
+	
+p:
 pacman:	
-	addi $25, $5, 0x38f8	# NOVA posição da memória -> p2  3640 = 0xE38
-	addi $13, $0, 3		# contador p2
+	addi $25, $5, 0x5c80
+	addi $13, $0, 3		# contador
 	addi $15, $0, 408	# salto para a próxima coluna
-	addi $16, $0, 96	# proxima fun_linha
+	addi $16, $0, 96	# proxima linha
 	jal pm
 	
-	addi $25, $5, 0x6E0c	# NOVA posição da memória -> p2  3640 = 0xE38
-	addi $13, $0, 3		# contador p2
+	addi $25, $5, 0x6E0c
+	addi $13, $0, 3		# contador
 	addi $15, $0, 408	# salto para a próxima coluna
-	addi $16, $0, 96	# proxima fun_linha
+	addi $16, $0, 96	# proxima linha
 	jal pm
 	
-	addi $25, $5, 0x6E20	# NOVA posição da memória -> p2  3640 = 0xE38
-	addi $13, $0, 3		# contador p2
+	addi $25, $5, 0x6E20
+	addi $13, $0, 3		# contador
 	addi $15, $0, 408	# salto para a próxima coluna
-	addi $16, $0, 96	# proxima fun_linha
+	addi $16, $0, 96	# proxima linha
 	jal pm
 	
-	addi $25, $5, 0x55d4	# NOVA posição da memória -> p2  3640 = 0xE38
-	addi $13, $0, 3		# contador p2
+	addi $25, $5, 0x55d4
+	addi $13, $0, 3		# contador
 	addi $15, $0, 408	# salto para a próxima coluna
-	addi $16, $0, 96	# proxima fun_linha
+	addi $16, $0, 96	# proxima linha
 	jal pm
 
-	addi $25, $5, 0x62d0	# NOVA posição da memória -> p2  3640 = 0xE38
-	addi $13, $0, 3		# contador p2
+	addi $25, $5, 0x74b8
+	addi $13, $0, 3		# contador
 	addi $15, $0, 408	# salto para a próxima coluna
-	addi $16, $0, 96	# proxima fun_linha
+	addi $16, $0, 96	# proxima linha
 	jal pm
 
 paredes:
+# ----------- primeira parte -----------------
 	# colunas iguais cantro superior esquerdo e direito
 	addi $25, $5, 0xE20	
 	addi $13, $0, 9		# contador
 	addi $15, $0, 436	# salto para a próxima coluna 
-	addi $16, $0, 68	# proxima fun_linha
+	addi $16, $0, 68	# proxima linha
 	jal dupla_coluna
 	# segunda coluna - espelhado
 	addi $25, $5, 0xE3C	
 	addi $13, $0, 14	# contador
 	addi $15, $0, 380	# salto para a próxima coluna
-	addi $16, $0, 124	# proxima fun_linha
+	addi $16, $0, 124	# proxima linha
 	jal dupla_coluna
 	# primeira linha - primeiro desenho
 	addi $25, $5, 0x2A20
@@ -106,109 +131,112 @@ paredes:
 	jal fun_linha
 	# linha superior serapada (1) do retângulo
 	addi $25, $5, 0xE58
-	addi $13, $0, 78	#  contador pl4
+	addi $13, $0, 78	#  contador
 	addi $14, $0, 39
 	jal fun_linha
 	# linha inferior serapada (1) do retângulo
-	addi $25, $5, 0x2A58	# NOVA posição da memória -> p2  10840 = 0x2A58
-	addi $13, $0, 78	#  contador pl5
+	addi $25, $5, 0x2A58	# NOVA posição da memória -> 10840 = 0x2A58
+	addi $13, $0, 78	#  contador
 	addi $14, $0, 39
 	jal fun_linha
 	# linha superior serapada (2) do retângulo
-	addi $25, $5, 0xF0C	# NOVA posição da memória -> p2  3856 = 0xF10
-	addi $13, $0, 78	#  contador pl6
+	addi $25, $5, 0xF0C	# NOVA posição da memória -> 3852 = 0xF0C
+	addi $13, $0, 78	#  contador
 	addi $14, $0, 39
 	jal fun_linha
 	# linha inferior serapada (2) do retângulo
-	addi $25, $5, 0x2B0C	# NOVA posição da memória -> p2  
-	addi $13, $0, 78	#  contador pl7
+	addi $25, $5, 0x2B0C	# NOVA posição da memória  
+	addi $13, $0, 78	#  contador
 	addi $14, $0, 39
 	jal fun_linha
 	# dupla_coluna - > caixote 1
-	addi $25, $5, 0x1258	# posição da primeira parede -> dupla_coluna
-	addi $13, $0, 12	# contador dupla_coluna
+	addi $25, $5, 0x1258
+	addi $13, $0, 12	# contador coluna
 	addi $15, $0, 324	# salto para a próxima coluna
-	addi $16, $0, 180	# proxima fun_linha
+	addi $16, $0, 180	# proxima linha
 	jal dupla_coluna
 	# linha central do retângulo
-	addi $25, $5, 0x1C78	# NOVA posição da memória -> p2  
-	addi $13, $0, 134	#  contador pl9
+	addi $25, $5, 0x1C78  
+	addi $13, $0, 134	#  contador
 	addi $14, $0, 67
 	jal fun_linha
-	
-	# ultima fun_linha primeira parte
-	addi $25, $5, 0x2BBC	# NOVA posição da memória -> pl11  
-	addi $13, $0, 18	# (18 = 9 + 9) contador pl3
+	# ultima linha primeira parte
+	addi $25, $5, 0x2BBC 
+	addi $13, $0, 18	# (18 = 9 + 9) contador
 	addi $14, $0, 9		# metade do $13
 	jal fun_linha
+	
+# ----------- segunda parte -----------------
+	
 	# colunas do primeiro sorrriso
-	addi $25, $5, 0x3820	# posição da primeira parede -> coluna_unica2
-	addi $13, $0, 13	# contador coluna_unica
+	addi $25, $5, 0x3820
+	addi $13, $0, 13	# contador
 	addi $15, $0, 80	# salto para a próxima coluna
 	addi $16, $0, 424
 	jal dupla_coluna
 	# colunas do segundo sorrriso
-	addi $25, $5, 0x3984	# espelho coluna_unica2
-	addi $13, $0, 13	# contador coluna_unica
+	addi $25, $5, 0x3984
+	addi $13, $0, 13	# contador
 	addi $15, $0, 80	# salto para a próxima coluna
 	addi $16, $0, 424
 	jal dupla_coluna
-	# fun_linha espelho - sorriso
-	addi $25, $5, 0x4E20	# fun_linha 1 segunda parte
-	addi $13, $0, 46	# contador pl4
+	# linha - 1º sorriso
+	addi $25, $5, 0x4E20	# linha
+	addi $13, $0, 46	# contador
 	addi $14, $0, 23	# quantidade total de pixels pintados na coluna
 	jal fun_linha
-	# fun_linha espelho - sorriso
-	addi $25, $5, 0x4F84	# fun_linha espelho coluna_unica4
-	addi $13, $0, 46	# contador pl4
+	# linha espelho - 2º sorriso
+	addi $25, $5, 0x4F84
+	addi $13, $0, 46	# contador
 	addi $14, $0, 23	# quantidade total de pixels pintados na coluna
 	jal fun_linha
-	# colunas do olho primeiro sorrriso
-	addi $25, $5, 0x383C	# posição da primeira parede -> coluna_unica2
-	addi $13, $0, 6		# contador coluna_unica
+	# colunas do olho 1º sorrriso
+	addi $25, $5, 0x383C
+	addi $13, $0, 6		# contador
 	addi $15, $0, 24	# salto para a próxima coluna
 	addi $16, $0, 480
 	jal dupla_coluna
-	# colunas do olho segundo sorrriso
-	addi $25, $5, 0x39A0	# posição da primeira parede -> coluna_unica2
-	addi $13, $0, 6		# contador coluna_unica
+	# colunas do olho 2º sorrriso
+	addi $25, $5, 0x39A0
+	addi $13, $0, 6		# contador
 	addi $15, $0, 24	# salto para a próxima coluna
 	addi $16, $0, 480
 	jal dupla_coluna
-	# fun_linha do centro quebrada 1ª
-	addi $25, $5, 0x3890	# fun_linha 2 segunda parte
-	addi $13, $0, 50	# contador pl4
+	# linha do centro quebrada 1ª
+	addi $25, $5, 0x3890
+	addi $13, $0, 50	# contador
 	addi $14, $0, 25	# quantidade total de pixels pintados na coluna
 	jal fun_linha
-	# fun_linha do centro quebrada 2ª
-	addi $25, $5, 0x390C	# fun_linha 2.1 segunda parte
-	addi $13, $0, 50	# contador pl4
+	# linha do centro quebrada 2ª
+	addi $25, $5, 0x390C
+	addi $13, $0, 50	# contador
 	addi $14, $0, 25	# quantidade total de pixels pintados na coluna
 	jal fun_linha
-	# fun_linha do centro inferior 
-	addi $25, $5, 0x4E90	# fun_linha 3 segunda parte
-	addi $13, $0, 112	# contador pl4
+	# linha do centro inferior 
+	addi $25, $5, 0x4E90
+	addi $13, $0, 112	# contador
 	addi $14, $0, 56	# quantidade total de pixels pintados na coluna
 	jal fun_linha
-	# dupla_coluna - > caixote 2
-	addi $25, $5, 0x3890	# posição da primeira parede -> dupla_coluna
-	addi $13, $0, 13	# contador dupla_coluna
+	# coluna - > caixote 2
+	addi $25, $5, 0x3890
+	addi $13, $0, 13	# contador
 	addi $15, $0, 212	# salto para a próxima coluna
-	addi $16, $0, 292	# proxima fun_linha
+	addi $16, $0, 292	# proxima linha
 	jal dupla_coluna
 	
-	# fun_linha final
-	# fun_linha do J
+# ----------- terceira parte -----------------
+
+	# linha superior do J
 	addi $25, $5, 0x5c20	# fun_linha espelho coluna_unica2
 	addi $13, $0, 46	# contador pl4
 	addi $14, $0, 23	# quantidade total de pixels pintados na coluna
 	jal fun_linha
-	# fun_linha do J inferior
+	# linha inferior do J inferior
 	addi $25, $5, 0x6E30	# fun_linha espelho coluna_unica2
 	addi $13, $0, 34	# contador pl4
 	addi $14, $0, 17	# quantidade total de pixels pintados na coluna
 	jal fun_linha
-	# coluna do J
+	# coluna grande do J
 	addi $25, $5, 0x5C6C	# coluna
 	addi $13, $0, 11	# contador
 	jal coluna_unica
@@ -216,32 +244,34 @@ paredes:
 	addi $25, $5, 0x6a30	# fun_linha
 	addi $13, $0, 3		# contador
 	jal coluna_unica
-	
-	# tá torto
-	# brotanto do chão
-	addi $25, $5, 0x6ad0	# coluna
+	# brotanto do chão 1
+	addi $25, $5, 0x6AA4	# coluna
+	addi $13, $0, 9		# contador
+	jal coluna_unica
+	# brotanto do chão 2 e 3
+	addi $25, $5, 0x6Af8	# coluna
 	addi $13, $0, 9		# contador
 	addi $15, $0, 80	# salto para a próxima coluna
 	addi $16, $0, 424
 	jal dupla_coluna
-	# T - fun_linha
-	addi $25, $5, 0x5cb0	# fun_linha
-	addi $13, $0, 74	# contador
-	addi $14, $0, 37	# quantidade total de pixels pintados na coluna
+	# T - linha
+	addi $25, $5, 0x5c90
+	addi $13, $0, 112	# contador
+	addi $14, $0, 56	# quantidade total de pixels pintados na coluna
 	jal fun_linha
-	# T - coluna
-	addi $25, $5, 0x5CF8	# coluna
+	# T - colunas
+	addi $25, $5, 0x60d0	# coluna
 	addi $13, $0, 9		# contador
-	jal coluna_unica
-	
-	
+	addi $15, $0, 80	# salto para a próxima coluna
+	addi $16, $0, 424
+	jal dupla_coluna
 	# colunas do H
 	addi $25, $5, 0x5d84	# fun_linha 
 	addi $13, $0, 11	# contador
 	addi $15, $0, 80	# salto para a próxima coluna
 	addi $16, $0, 424
 	jal dupla_coluna
-	# fun_linha do H
+	# linha do H
 	addi $25, $5, 0x6784	# fun_linha 
 	addi $13, $0, 46	# contador
 	addi $14, $0, 23	# quantidade total de pixels pintados na coluna
@@ -270,14 +300,14 @@ fc:	jr $31
 
 
 coluna_unica:	# coluna unica
-	beq $13, $0, f1
+	beq $13, $0, col
 	sw $9, 0($25)	# pixel 1
 	addi $25, $25, 4
 	sw $9, 0($25)	# pixel 2
 	addi $25, $25, 508
 	addi $13, $13, -1
 	j coluna_unica
-f1:	jr $31
+col:	jr $31
 # --------------------
 fun_linha:	# fun_linha
 	beq $13, $14 , lnh
