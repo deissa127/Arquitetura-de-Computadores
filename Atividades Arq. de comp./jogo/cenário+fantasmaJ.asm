@@ -36,10 +36,6 @@
 ###### Registradores livres: 6, 14, 16, $17, $18
 ###### Registradores que podem ser reutilizados: 8, 9, 10, 11, 12, 24
 
-
-
-#################### precisa ajustar a altura das pontas
-
 .text
 main:	
 	#endereço base
@@ -112,7 +108,6 @@ cenario:
 	addi $25, $5, 0x136C
 	addi $13, $0, 3
 	jal linha
-	
 	#LINHA
 	addi $25, $5, 0x14C8
 	addi $13, $0, 30
@@ -125,39 +120,24 @@ cenario:
 	addi $13, $0, 3
 	addi $15, $0, 116
 	jal duascolunas
-	
-	
 	#L 
 	addi $25, $5, 0x182C
 	addi $13, $0, 12
 	addi $15, $0, 424
 	jal duascolunas
 	
-	addi $25, $5, 0x1E38
-	addi $13, $0, 9
+	addi $25, $5, 0x1838
+	addi $13, $0, 12
 	addi $15, $0, 400
 	jal duascolunas
 	
 	addi $25, $5, 0x162C
-	addi $13, $0, 8
+	addi $13, $0, 4
 	jal linha
 	
-	addi $25, $5, 0x17B8
-	addi $13, $0, 8
+	addi $25, $5, 0x17C8
+	addi $13, $0, 4
 	jal linha
-	
-	addi $25, $5, 0x1C38
-	addi $13, $0, 5
-	jal linha
-	
-	addi $25, $5, 0x1DB8
-	addi $13, $0, 5
-	jal linha
-	
-	addi $25, $5, 0x1848
-	addi $13, $0, 3
-	addi $15, $0, 368
-	jal duascolunas
 	
 	addi $25, $5, 0x2E2C
 	addi $13, $0, 3
@@ -213,7 +193,6 @@ cenario:
 	addi $25, $5, 0x3578
 	addi $13, $0, 9
 	jal linha
-	
 	#LINHA BAIXO
 	addi $25, $5, 0x4B78
 	addi $13, $0, 9
@@ -222,8 +201,6 @@ cenario:
 	addi $25, $5, 0x5178
 	addi $13, $0, 9
 	jal linha
-	
-	
 	#CAIXOTE
 	addi $25, $5, 0x42C8
 	addi $13, $0, 30
@@ -250,8 +227,7 @@ cenario:
 	addi $25, $5, 0x2F40
 	addi $13, $0, 4
 	jal linha
-	
-	
+
 	
 	#######BAIXO
 	#COLUNAS
@@ -272,37 +248,19 @@ cenario:
 	addi $25, $5, 0x6B6C
 	addi $13, $0, 3
 	jal linha
-	
 	#LINHA
+	addi $25, $5, 0x6AC8
+	addi $13, $0, 30
+	jal linha
+	
+	addi $25, $5, 0x64C8
+	addi $13, $0, 30
+	jal linha
+	
 	addi $25, $5, 0x66C8
-	addi $13, $0, 30
-	jal linha
-	
-	addi $25, $5, 0x60C8
-	addi $13, $0, 30
-	jal linha
-	
-	addi $25, $5, 0x60C8
 	addi $13, $0, 3
 	addi $15, $0, 116
 	jal duascolunas
-	
-	
-	
-	#L ESQUERDA
-	addi $25, $5, 0x522C
-	addi $13, $0, 12
-	addi $15, $0, 424
-	jal duascolunas
-	
-	addi $25, $5, 0x682C
-	addi $13, $0, 6
-	jal linha
-	#L DIREITA
-	addi $25, $5, 0x6BC0
-	addi $13, $0, 6
-	jal linha
-	
 	#L 
 	addi $25, $5, 0x522C
 	addi $13, $0, 12
@@ -310,29 +268,8 @@ cenario:
 	jal duascolunas
 	
 	addi $25, $5, 0x5238
-	addi $13, $0, 9
+	addi $13, $0, 12
 	addi $15, $0, 400
-	jal duascolunas
-	
-	addi $25, $5, 0x682C
-	addi $13, $0, 8
-	jal linha
-	
-	addi $25, $5, 0x6BB8
-	addi $13, $0, 8
-	jal linha
-	
-	addi $25, $5, 0x6238
-	addi $13, $0, 5
-	jal linha
-	
-	addi $25, $5, 0x65B8
-	addi $13, $0, 5
-	jal linha
-	
-	addi $25, $5, 0x6448
-	addi $13, $0, 3
-	addi $15, $0, 368
 	jal duascolunas
 	
 	addi $25, $5, 0x522C
@@ -343,9 +280,16 @@ cenario:
 	addi $13, $0, 3
 	jal linha
 	
+	addi $25, $5, 0x682C
+	addi $13, $0, 3
+	jal linha
+	
+	addi $25, $5, 0x69CC
+	addi $13, $0, 3
+	jal linha
+	
 # ========================================
 # CÓPIA DO CENÁRIO
-# ========================================
 copia_cenario:
 	lui $11, 0x1001       # Ponteiro de LEITURA 0x10010000
 	addi $12, $11, 32256  # Ponteiro de ESCRITA 0x10032256
@@ -394,7 +338,7 @@ pmf:	# pacman e fantasmas
 	li $10, 1		# Fantasma 4
 	
 	game_loop:
-	# --- MOVIMENTAÇÃO DO FANTASMA 1 ---
+	#movimentacão fantasma 1
 	move $25, $6           # Passa a posição atual para a rotina
 	move $17, $11           # Passa a direção atual
 	li $22, 0xFFC0CB        # Cor Rosa
@@ -402,7 +346,7 @@ pmf:	# pacman e fantasmas
 	move $6, $25           # Salva a nova posição atualizada
 	move $11, $24           # Salva a direção (que pode ter mudado se colidiu)
 
-	# --- MOVIMENTAÇÃO DO FANTASMA 2 ---
+	#movimentacão fantasma 2
 	move $25, $8		# Passa a posição atual
 	move $17, $12           # Passa a direção atual
 	li $22, 0xFF0000        # Cor Vermelha
@@ -410,7 +354,7 @@ pmf:	# pacman e fantasmas
 	move $8, $25           # Salva a nova posição
 	move $12, $24           # Salva a direção
 	
-	# --- MOVIMENTAÇÃO DO FANTASMA 3 ---
+	#movimentacão fantasma 3
 	move $25, $14           # Passa a posição atual
 	move $17, $16           # Passa a direção atual
 	li $22, 0x00FFFF        # Cor Ciano
@@ -418,7 +362,7 @@ pmf:	# pacman e fantasmas
 	move $14, $25           # Salva a nova posição
 	move $16, $24           # Salva a direção
 	
-	# --- MOVIMENTAÇÃO DO FANTASMA 4 ---
+	#movimentacão fantasma 4
 	move $25, $15           # Passa a posição atual
 	move $17, $10           # Passa a direção atual
 	li $22, 0xFFA500        # Cor Laranja
@@ -426,8 +370,8 @@ pmf:	# pacman e fantasmas
 	move $15, $25           # Salva a nova posição
 	move $10, $24           # Salva a direção
 
-	# --- CONTROLE DE TEMPO (FRAME RATE) ---
-	jal tim          # Espera um pouco para o olho humano conseguir acompanhar
+	#tempo
+	jal tim
 
 	j game_loop             # Repete o ciclo infinitamente
 
@@ -435,9 +379,8 @@ pmf:	# pacman e fantasmas
 	j fim
 	
 	
-# ==============================================================================
-# ROTINA GERAL DE ATUALIZAÇÃO DO FANTASMA (BORDAS REAIS + ANTICIPACAO DE 2PX)
-# ==============================================================================
+#==============================================================================
+#ATUALIZAÇÃO DO FANTASMA (BORDAS REAIS + ANTICIPACAO DE 2PX)
 atualizar_fantasma:
 	addi $sp, $sp, -4	
 	sw $31, 0($sp)        # Salva o endereço de retorno
@@ -878,13 +821,13 @@ d_dir:
 
 retornar:jr $31
 # time fantasma
-tim: 	addi $25, $0, 10000
+tim: 	addi $25, $0, 30000
 ft: 	beq $25, $0, fimt                  
         nop
         addi $25, $25, -1
         j ft
 fimt: jr $31
-timer: 	addi $25, $0, 1000000
+timer: 	addi $25, $0, 500000
 # time tela branca
 fortim: beq $25, $0, fimtimer                  
         nop
